@@ -1,0 +1,68 @@
+[package]
+name = "rs_template"
+version = "0.1.0"
+edition = "2021"
+authors = ["LeetCode Template <template@example.com>"]
+description = "Rust template for LeetCode problems"
+repository = "https://github.com/lanshi47/lc-plugin-template"
+license = "MIT"
+keywords = ["leetcode", "algorithms", "template", "rust"]
+categories = ["algorithms", "development-tools"]
+
+[lib]
+name = "leetcode"
+path = "leetcode/editor/common/mod.rs"
+
+# Chinese version problems
+[[bin]]
+name = "cn_binary_tree_preorder_traversal"
+path = "leetcode/editor/cn/binary_tree_preorder_traversal.rs"
+
+[[bin]]
+name = "cn_merge_two_sorted_lists"
+path = "leetcode/editor/cn/merge_two_sorted_lists.rs"
+
+[[bin]]
+name = "cn_two_sum"
+path = "leetcode/editor/cn/two_sum.rs"
+
+[[bin]]
+name = "cn_populating_next_right_pointers_in_each_node_ii"
+path = "leetcode/editor/cn/populating_next_right_pointers_in_each_node_ii.rs"
+
+# English version problems
+[[bin]]
+name = "en_binary_tree_preorder_traversal"
+path = "leetcode/editor/en/binary_tree_preorder_traversal.rs"
+
+[[bin]]
+name = "en_merge_two_sorted_lists"
+path = "leetcode/editor/en/merge_two_sorted_lists.rs"
+
+[dependencies]
+# Common utilities for algorithm problems
+rand = "0.9.2"
+itertools = "0.14.0"
+
+[dev-dependencies]
+# Testing utilities
+criterion = "0.7.0"
+
+# Profile for performance optimization
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+
+# Profile for debugging
+[profile.dev]
+opt-level = 0
+debug = true
+overflow-checks = true
+
+# Benchmark configuration
+[[bench]]
+name = "algorithm_benchmarks"
+harness = false
+path = "benches/lib.rs"
