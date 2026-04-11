@@ -13,14 +13,15 @@ impl Solution {
         if n <= 2 {
             return n;
         }
-        // dp[i] 表示爬到第 i 阶楼梯的方法数
-        let mut dp = vec![0i32; (n + 1) as usize];
-        dp[1] = 1;
-        dp[2] = 2;
-        for i in 3..=(n as usize) {
-            dp[i] = dp[i - 1] + dp[i - 2];
+        // 只需保留前两个状态，空间复杂度 O(1)
+        let mut prev2 = 1i32; // dp[i-2]
+        let mut prev1 = 2i32; // dp[i-1]
+        for _ in 3..=n {
+            let cur = prev1 + prev2;
+            prev2 = prev1;
+            prev1 = cur;
         }
-        dp[n as usize]
+        prev1
     }
 }
 // @lc code=end
