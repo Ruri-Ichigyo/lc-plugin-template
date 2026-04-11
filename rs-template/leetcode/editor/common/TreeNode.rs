@@ -24,7 +24,7 @@ impl TreeNode {
 
         let root = Some(Box::new(TreeNode::new(values[0].unwrap())));
         let mut queue = VecDeque::new();
-        queue.push_back(root.as_ref().unwrap() as *const TreeNode as *mut TreeNode);
+        queue.push_back(root.as_ref().unwrap().as_ref() as *const TreeNode as *mut TreeNode);
 
         let mut i = 1;
         while i < values.len() {
@@ -35,7 +35,7 @@ impl TreeNode {
                 if let Some(val) = values[i] {
                     unsafe {
                         (*current).left = Some(Box::new(TreeNode::new(val)));
-                        queue.push_back((*current).left.as_ref().unwrap() as *const TreeNode as *mut TreeNode);
+                        queue.push_back((*current).left.as_ref().unwrap().as_ref() as *const TreeNode as *mut TreeNode);
                     }
                 }
                 i += 1;
@@ -46,7 +46,7 @@ impl TreeNode {
                 if let Some(val) = values[i] {
                     unsafe {
                         (*current).right = Some(Box::new(TreeNode::new(val)));
-                        queue.push_back((*current).right.as_ref().unwrap() as *const TreeNode as *mut TreeNode);
+                        queue.push_back((*current).right.as_ref().unwrap().as_ref() as *const TreeNode as *mut TreeNode);
                     }
                 }
                 i += 1;
@@ -54,5 +54,32 @@ impl TreeNode {
         }
 
         root
+    }
+
+    pub fn print(root: Option<Box<TreeNode>>) {
+        let mut result = Vec::new();
+        let mut queue = VecDeque::new();
+        if let Some(node) = root {
+            queue.push_back(node);
+        }
+        while let Some(node) = queue.pop_front() {
+            result.push(Some(node.val));
+            if let Some(left) = node.left {
+                queue.push_back(left);
+            } else if node.right.is_some() {
+                result.push(None);
+            }
+            if let Some(right) = node.right {
+                queue.push_back(right);
+            }
+        }
+        let strs: Vec<String> = result
+            .iter()
+            .map(|v| match v {
+                Some(n) => n.to_string(),
+                None => "null".to_string(),
+            })
+            .collect();
+        println!("[{}]", strs.join(","));
     }
 }

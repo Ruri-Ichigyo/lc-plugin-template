@@ -6,34 +6,18 @@
  */
 
 // @lc code=start
-// Definition for a Node.
-// #[derive(Debug, PartialEq, Eq)]
-// pub struct Node {
-//   pub val: i32,
-//   pub left: Option<Rc<RefCell<Node>>>,
-//   pub right: Option<Rc<RefCell<Node>>>,
-//   pub next: Option<Rc<RefCell<Node>>>,
-// }
-//
-// impl Node {
-//   #[inline]
-//   pub fn new(val: i32) -> Self {
-//     Node {
-//       val,
-//       left: None,
-//       right: None,
-//       next: None
-//     }
-//   }
-// }
+use leetcode::Node;
 use std::cell::RefCell;
 use std::rc::Rc;
+
+struct Solution;
+
 impl Solution {
     pub fn connect(root: Option<Rc<RefCell<Node>>>) -> Option<Rc<RefCell<Node>>> {
         let mut leftmost = root.clone();
         while let Some(level_start) = leftmost {
             let mut head = Some(level_start.clone());
-            let mut dummy = Rc::new(RefCell::new(Node::new(0)));
+            let dummy = Rc::new(RefCell::new(Node::new(0)));
             let mut prev = dummy.clone();
             while let Some(node) = head {
                 let node_ref = node.borrow();
@@ -53,6 +37,15 @@ impl Solution {
     }
 }
 // @lc code=end
+
+fn main() {
+    // Example: [1,2,3,4,5,null,7]
+    let root = Some(Rc::new(RefCell::new(Node::new(1))));
+    let result = Solution::connect(root);
+    if let Some(node) = result {
+        println!("root val: {}", node.borrow().val);
+    }
+}
 
 /*
 // @lcpr case=start
