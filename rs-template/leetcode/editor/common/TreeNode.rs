@@ -57,29 +57,26 @@ impl TreeNode {
     }
 
     pub fn print(root: Option<Box<TreeNode>>) {
-        let mut result = Vec::new();
-        let mut queue = VecDeque::new();
-        if let Some(node) = root {
-            queue.push_back(node);
+        if root.is_none() {
+            println!("[]");
+            return;
         }
+        let mut result: Vec<String> = Vec::new();
+        let mut queue: VecDeque<Option<Box<TreeNode>>> = VecDeque::new();
+        queue.push_back(root);
         while let Some(node) = queue.pop_front() {
-            result.push(Some(node.val));
-            if let Some(left) = node.left {
-                queue.push_back(left);
-            } else if node.right.is_some() {
-                result.push(None);
-            }
-            if let Some(right) = node.right {
-                queue.push_back(right);
+            if let Some(n) = node {
+                result.push(n.val.to_string());
+                queue.push_back(n.left);
+                queue.push_back(n.right);
+            } else {
+                result.push("null".to_string());
             }
         }
-        let strs: Vec<String> = result
-            .iter()
-            .map(|v| match v {
-                Some(n) => n.to_string(),
-                None => "null".to_string(),
-            })
-            .collect();
-        println!("[{}]", strs.join(","));
+        // trim trailing nulls
+        while result.last().map(|s| s == "null").unwrap_or(false) {
+            result.pop();
+        }
+        println!("[{}]", result.join(","));
     }
 }
