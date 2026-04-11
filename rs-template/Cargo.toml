@@ -50,6 +50,18 @@ path = "leetcode/editor/cn/climbing_stairs.rs"
 name = "cn_longest_substring_without_repeating_characters"
 path = "leetcode/editor/cn/longest_substring_without_repeating_characters.rs"
 
+[[bin]]
+name = "cn_lru_cache"
+path = "leetcode/editor/cn/lru_cache.rs"
+
+[[bin]]
+name = "cn_min_stack"
+path = "leetcode/editor/cn/min_stack.rs"
+
+[[bin]]
+name = "cn_implement_trie_prefix_tree"
+path = "leetcode/editor/cn/implement_trie_prefix_tree.rs"
+
 # English version problems
 [[bin]]
 name = "en_binary_tree_preorder_traversal"
