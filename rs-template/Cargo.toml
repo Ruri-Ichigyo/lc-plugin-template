@@ -30,6 +30,26 @@ path = "leetcode/editor/cn/two_sum.rs"
 name = "cn_populating_next_right_pointers_in_each_node_ii"
 path = "leetcode/editor/cn/populating_next_right_pointers_in_each_node_ii.rs"
 
+[[bin]]
+name = "cn_binary_search"
+path = "leetcode/editor/cn/binary_search.rs"
+
+[[bin]]
+name = "cn_valid_parentheses"
+path = "leetcode/editor/cn/valid_parentheses.rs"
+
+[[bin]]
+name = "cn_maximum_depth_of_binary_tree"
+path = "leetcode/editor/cn/maximum_depth_of_binary_tree.rs"
+
+[[bin]]
+name = "cn_climbing_stairs"
+path = "leetcode/editor/cn/climbing_stairs.rs"
+
+[[bin]]
+name = "cn_longest_substring_without_repeating_characters"
+path = "leetcode/editor/cn/longest_substring_without_repeating_characters.rs"
+
 # English version problems
 [[bin]]
 name = "en_binary_tree_preorder_traversal"
