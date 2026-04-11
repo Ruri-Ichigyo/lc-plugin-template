@@ -6,12 +6,13 @@
  */
 
 // @lc code=start
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
 
 struct LRUCache {
     capacity: usize,
-    map: HashMap<i32, i32>,   // key -> val
-    order: std::collections::VecDeque<i32>, // front = most recent
+    map: HashMap<i32, (i32, u64)>, // key -> (val, 访问时间戳)
+    order: BTreeMap<u64, i32>,     // 时间戳 -> key（用于找最久未用的 key）
+    time: u64,
 }
 
 impl LRUCache {
@@ -19,15 +20,17 @@ impl LRUCache {
         LRUCache {
             capacity: capacity as usize,
             map: HashMap::new(),
-            order: std::collections::VecDeque::new(),
+            order: BTreeMap::new(),
+            time: 0,
         }
     }
 
     fn get(&mut self, key: i32) -> i32 {
-        if let Some(&val) = self.map.get(&key) {
-            // 移到最近使用位置
-            self.order.retain(|&k| k != key);
-            self.order.push_front(key);
+        if let Some(&(val, old_ts)) = self.map.get(&key) {
+            self.time += 1;
+            self.order.remove(&old_ts);
+            self.order.insert(self.time, key);
+            self.map.insert(key, (val, self.time));
             val
         } else {
             -1
@@ -35,16 +38,19 @@ impl LRUCache {
     }
 
     fn put(&mut self, key: i32, value: i32) {
-        if self.map.contains_key(&key) {
-            self.order.retain(|&k| k != key);
+        // 若 key 已存在，先删除旧时间戳
+        if let Some(&(_, old_ts)) = self.map.get(&key) {
+            self.order.remove(&old_ts);
         } else if self.map.len() == self.capacity {
             // 淘汰最久未使用的 key
-            if let Some(lru_key) = self.order.pop_back() {
+            if let Some((&lru_ts, &lru_key)) = self.order.iter().next() {
+                self.order.remove(&lru_ts);
                 self.map.remove(&lru_key);
             }
         }
-        self.map.insert(key, value);
-        self.order.push_front(key);
+        self.time += 1;
+        self.map.insert(key, (value, self.time));
+        self.order.insert(self.time, key);
     }
 }
 // @lc code=end
